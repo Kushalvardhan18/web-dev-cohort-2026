@@ -4,18 +4,25 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <div>
-      <header>
-        <img src="./Assets/mintlify-assets/mintlify-wordmark.svg" alt="" />
-        <nav>
-          <div>Resources</div>
-          <div>Documentation</div>
-          <div>Customers</div>
-          <div>Blog</div>
-          <div>Pricing</div>
+     <div class="main-C">
+       <header class="nav-bar">
+        <img src="./Assets/mintlify-assets/mintlify-wordmark.svg" alt="mintlify" class="mintlify-word" />
+        <nav class="nav-links">
+          <div class="nav-link-btn">Resources</div>
+          <div class="nav-link-btn">Documentation</div>
+          <div class="nav-link-btn">Customers</div>
+          <div class="nav-link-btn">Blog</div>
+          <div class="nav-link-btn">Pricing</div>
         </nav>
         <div>
           <button>Contact sales</button>
@@ -24,9 +31,9 @@
       </header>
       <div>
         <div>
-          <span>NEW</span>
+          <span id="new">NEW</span>
           Self-updating docs with agent suggestions
-          <img src="./Assets/logo/asset-svg-13.svg" alt="arrow" />
+          <img src="./Assets/logo/asset-svg-13.svg" alt="arrow" width="50px"/>
         </div>
         <h1>
           The Intelligent <br />
@@ -45,6 +52,7 @@
           />
         </div>
       </div>
+     </div>
       <div>
         <img src="./Assets/logo/anthropic.svg" alt="anthropic" />
         <img src="./Assets/logo/coinbase.svg" alt="coinbase" />
