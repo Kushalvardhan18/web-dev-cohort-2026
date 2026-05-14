@@ -45,7 +45,7 @@ function block_1_basicServer() {
 
         const server = app.listen(0, async () => {
             const port = server.address().port
-            const base = `127.0.0.1:${port}`
+            const base = `http://127.0.0.1:${port}`
 
             try {
                 const menuResponse = await fetch(`${base}/menu`)
@@ -93,7 +93,7 @@ function block_1_basicServer() {
 
             }
 
-            server.close(()=>{
+            server.close(() => {
                 console.log("Block 1 served...");
                 resolve()
             })
@@ -101,9 +101,76 @@ function block_1_basicServer() {
     })
 }
 
+function block_2_response() {
+    return new Promise((resolve) => {
+        const app = express()
+
+        app, get('/text', (req, res) => {
+            res.send("Hello from Kushal Vardhan")
+        })
+
+        app.get('/json', (req, res) => {
+            res.json({
+                framework: "express",
+                version: '6.0.2',
+            })
+        })
+
+        app.get("/not-found", (req, res) => {
+            res.status(404).json({
+                error: "Page not found"
+            })
+        })
+
+
+        //To check the status of the machine so that another machine can star if machine is down .
+
+        app.get("/health", (req, res) => {
+            res.sendStatus(200)
+        })
+
+        app.get('/old-menu', (req, res) => {
+            // add entry in DB to see How many users are still visiting old Route
+
+            res.redirect(301, '/new-menu')
+            // In redirect there is always 301 statusCode
+        })
+
+        app.get('/xml', (req, res) => {
+            res.type('application/xml').send('<dish><name>XML</name></dish>')
+        })
+
+        app.get('/custom-headers', (req, res) => {
+            res.set('X-power-By', 'ChaiCode')
+            res.set('X-request-Id', '123456')
+            res.json({
+                message:'Custom headers set'
+            })
+        })
+        // Custom Headers --- CORS, caching, tracing
+
+
+        app.get('/no-content',(req,res)=>{
+            res.status(203).end()
+        })
+
+        const server = app.listen(0,async()=>{
+            const port = server.address().port
+
+            const base =`http://127.0.0.1:${port}`
+
+            try {
+                
+            } catch (error) {
+                console.log(error);
+                
+            }
+        })
+    })
+}
 async function main() {
     await block_1_basicServer()
-
+    await block_2_response
     process.exit(0)
 }
 main()
