@@ -64,20 +64,37 @@ function block_1_httpMethods() {
         }
 
 
+        // function getRole(role) {
+        //     return (req, res, next) => {
+        //         if (!req.user || req.user.role !== role) {
+        //             return res.status(403).json({ error: `[ROLE] ${role} required` })
+        //         }
+
+        // next()
+        //     }
+
+
+        // }
+
         function getRole(role) {
             return (req, res, next) => {
-                if (!req.user || req.user.role !== role) {
+                if (!req.user) {
+                    return res.status(401).json({
+                        error: 'Unauthorized'
+                    })
+                }
+
+                if (!role.includes(req.user.role)) {
                     return res.status(403).json({ error: `[ROLE] ${role} required` })
                 }
 
+                next()
             }
-
-
         }
 
         app.get('/profile', authMe, getRole('admin'), Profile, () => { })
         app.get('/profile', authMe, getRole('teacher'), Profile, () => { })
         app.get('/profile', authMe, getRole('student'), Profile, () => { })
-        app.get('/profile', authMe, getRole(['admin','teacher','student']), Profile, () => { })
+        app.get('/profile', authMe, getRole(['admin', 'teacher', 'student']), Profile, () => { })
     })
 }
