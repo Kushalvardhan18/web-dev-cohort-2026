@@ -3,7 +3,7 @@ const express = require('express')
 function block_1_httpMethods() {
     return new Promise((resolve) => {
         const app = express()
-        app.use(express())
+        app.use(express.json())
 
 
         const routes = {
@@ -151,7 +151,7 @@ function block_2_httpMethods() {
 
 
             app.use("/api",(req,res)=>{
-                // its a prefetch meatch
+                // its a prefetch match
             })
 
 
@@ -176,6 +176,7 @@ function block_2_httpMethods() {
 
 async function main() {
     await block_1_httpMethods
+    await block_2_httpMethods
 
     process.exit(0)
 }
