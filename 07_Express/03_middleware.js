@@ -96,5 +96,26 @@ function block_1_httpMethods() {
         app.get('/profile', authMe, getRole('teacher'), Profile, () => { })
         app.get('/profile', authMe, getRole('student'), Profile, () => { })
         app.get('/profile', authMe, getRole(['admin', 'teacher', 'student']), Profile, () => { })
+
+
+
+
+        function rateLimit(maxRequest) {
+            let count = 0
+
+            return (req, res, next) => {
+                count++;
+                if (count > maxRequest) {
+                    return res.status(429).json({ error: "Too many request, Please try after some time" })
+                }
+
+                next()
+            }
+        }
+
+
+        const limitedEndPoint = rateLimit(3)
+
+        app.get('/limited',limitedEndPoint,(req,res)=>{})
     })
 }
