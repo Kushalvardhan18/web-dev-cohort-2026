@@ -5,8 +5,12 @@ function block_1_httpMethods() {
 
         const logs = []
 
-        app.use(express.json())
-
+        app.use(express.json({ limit: '50kb' }))
+        app.use(express.urlencoded({ extended: true, limit: '50kb' })) // extended  true only if we are accepting nested keys
+        app.use(express.static(ShadowRoot, {
+            dotfiles: 'ignore',
+            maxAge: 0
+        }))
 
         // request logger 
 
@@ -116,6 +120,6 @@ function block_1_httpMethods() {
 
         const limitedEndPoint = rateLimit(3)
 
-        app.get('/limited',limitedEndPoint,(req,res)=>{})
+        app.get('/limited', limitedEndPoint, (req, res) => { })
     })
 }
