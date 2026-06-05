@@ -1,4 +1,3 @@
-import { decode } from "punycode"
 import ApiError from "../../common/utils/api-error.js"
 import { generateAccessToken, generateRefreshToken, generateResetToken, verifyRefreshToken } from "../../common/utils/jwt.utils.js"
 import User from "./auth.model.js"
@@ -29,7 +28,7 @@ const register = async ({ name, email, password, role }) => {
     //send an email to user with token:rawToken
 }
 
-const login = async ({ email, password }) => {
+const logIn = async ({ email, password }) => {
     const user = await User.findOne({ email }).select("+password")
     if (!user) throw ApiError.unauthorized("Invalid Email or password")
 
@@ -52,7 +51,7 @@ const refresh = async (token) => {
     if (!token) throw ApiError.unauthorized("Refresh token missing")
     const decoded = verifyRefreshToken(token)
 
-    const user = await User.findById(decode.id).select("+refreshToken")
+    const user = await User.findById(decoded.id).select("+refreshToken")
     if (!user) throw ApiError.unauthorized("User not found")
 
     if (user.refreshToken !== hashToken(token)) throw ApiError.unauthorized("Invalid refresh token")
@@ -69,4 +68,30 @@ const refresh = async (token) => {
     return { user: userObj, accessToken, refreshToken }
 }
 
-export { register, login, refresh }
+
+const logOut = async (userId) => {
+    // const user = await User.findById(userId)
+    // if (!user) throw ApiError.unauthorized("User not found")
+
+    // user.refreshToken = undefined
+    // await user.save({ validateBeforeSave: false })
+
+
+    const user = await User.findByIdAndUpdate(userId, { refreshToken: null })
+}
+const forgotPassword = async (email) => {
+    const user = await User.findOne({ email }).select("+resetPasswordToken")
+    if (!user) throw ApiError.notFound("No account with that email ")
+
+    const { rawToken, hashedToken } = generateResetToken()
+
+
+    user.resetPasswordToken = hashedToken
+    user.resetPasswordExpires = Date.now() + 15 * 60 * 1000
+
+    await user.save()
+
+    
+
+}
+export { register, logIn, refresh, logOut }
