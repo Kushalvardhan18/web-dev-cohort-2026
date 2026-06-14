@@ -18,7 +18,7 @@ const register = async ({ name, email, password, role }) => {
         verificationToken: hashedToken
     })
 
-    console.log(user);
+    // console.log(user);
 
     const userObj = user.toObject()
     delete userObj.password
@@ -32,6 +32,10 @@ const logIn = async ({ email, password }) => {
     const user = await User.findOne({ email }).select("+password")
     if (!user) throw ApiError.unauthorized("Invalid Email or password")
 
+
+    const isMatch = await user.comparePassword(password)
+
+    if (!isMatch) throw ApiError.unauthorized("Invalid email or password")
 
     if (!user.isVerified) throw ApiError.forbidden("Please verify your email before login")
     const accessToken = generateAccessToken({ id: user._id })
@@ -91,7 +95,7 @@ const forgotPassword = async (email) => {
 
     await user.save()
 
-    
+
 
 }
-export { register, logIn, refresh, logOut }
+export { register, logIn, refresh, logOut, forgotPassword }
