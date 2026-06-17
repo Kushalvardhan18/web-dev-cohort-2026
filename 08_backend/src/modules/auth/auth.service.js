@@ -1,3 +1,4 @@
+import { sendVerificationEmail } from "../../common/config/email.js"
 import ApiError from "../../common/utils/api-error.js"
 import { generateAccessToken, generateRefreshToken, generateResetToken, verifyRefreshToken } from "../../common/utils/jwt.utils.js"
 import User from "./auth.model.js"
@@ -19,6 +20,12 @@ const register = async ({ name, email, password, role }) => {
     })
 
     // console.log(user);
+
+    try {
+        await sendVerificationEmail(email, token)
+    } catch (error) {
+        console.error(error)
+    }
 
     const userObj = user.toObject()
     delete userObj.password
@@ -73,7 +80,7 @@ const refresh = async (token) => {
 }
 
 
-const logOut = async (userId) => {
+const logOut = async (userId, req) => {
     // const user = await User.findById(userId)
     // if (!user) throw ApiError.unauthorized("User not found")
 
@@ -82,6 +89,7 @@ const logOut = async (userId) => {
 
 
     const user = await User.findByIdAndUpdate(userId, { refreshToken: null })
+
 }
 const forgotPassword = async (email) => {
     const user = await User.findOne({ email }).select("+resetPasswordToken")
@@ -98,4 +106,11 @@ const forgotPassword = async (email) => {
 
 
 }
-export { register, logIn, refresh, logOut, forgotPassword }
+
+
+const getMe = async (userId) => {
+    const user = await User.findById(userId)
+    if (!user) throw ApiError.notFound("User not Found")
+    return user
+}
+export { register, logIn, refresh, logOut, forgotPassword, getMe }

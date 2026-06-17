@@ -11,6 +11,9 @@ router.post("/register", validate(RegisterDto), controller.register)
 
 router.post("/login", validate(LoginDto), controller.login)
 
+router.post("/logout",isLoggedIn,controller.logOut)
+
 router.get("/me", isLoggedIn, controller.getMe)
+
 
 export default router
