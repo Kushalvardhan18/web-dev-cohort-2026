@@ -41,4 +41,4 @@ const getMe = async (req, res) => {
     const user = authService.getMe(req.user.id)
     ApiResponse.ok(res, "User Profile", user)
 }
-export { register, login, resetPassword, logOut, getMe }
+export { register, login, resetPassword, logOut, getMe } 

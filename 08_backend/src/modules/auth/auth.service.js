@@ -108,6 +108,23 @@ const forgotPassword = async (email) => {
 }
 
 
+const verifyEmail = async (token) => {
+
+    const hashedToken = hashToken(token)
+
+    const user = await user.findOne({ verificationToken: hashedToken }).select("+verificationToken")
+
+
+    if (!user) throw ApiError.notFound("User not Found")
+
+    user.isVerified = true
+    user.verificationToken = undefined
+    await user.save()
+    return user
+
+}
+
+
 const getMe = async (userId) => {
     const user = await User.findById(userId)
     if (!user) throw ApiError.notFound("User not Found")
