@@ -111,7 +111,7 @@ const forgotPassword = async (email) => {
 const verifyEmail = async (token) => {
 
     const hashedToken = hashToken(token)
-
+        
     const user = await user.findOne({ verificationToken: hashedToken }).select("+verificationToken")
 
 
