@@ -4,7 +4,7 @@
 
 
 // 1---Arrays
-const fruits = ['apple','orange','cheeku','kiwi',true]  // IN JS arrays is not necessarily  homogenous
+const fruits = ['apple', 'orange', 'cheeku', 'kiwi', true]  // IN JS arrays is not necessarily  homogenous
 
 fruits.push('mango')
 
@@ -12,8 +12,38 @@ console.log(fruits);
 
 console.log(fruits.includes('apple'));
 
-const firstElement = fruits.slice(2,5)
+const firstElement = fruits.slice(2, 5)
 console.log(fruits);
 
-console.log({firstElement});
+console.log({ firstElement });
 
+// High Order Functions - A fn that takes another Fn as parameter 
+
+function myFn(anotherFn) {
+    return anotherFn() + 40
+}
+
+function cartoon() {
+    return 10
+}
+function anotherNewFn() {
+    return 100
+}
+console.log(myFn(anotherNewFn));
+
+
+// function printFn(element) {
+//     console.log(element);
+
+// }
+// fruits.forEach(printFn)
+
+// fruits.forEach((e) => console.log(e))
+
+forEach((xyz)=>console.log(`${xyz}`))
+
+function forEach(bataoKyKrnaHai){
+    for(let i =0;i<fruits.length;i++){
+        bataoKyKrnaHai(fruits[i])
+    }
+}
