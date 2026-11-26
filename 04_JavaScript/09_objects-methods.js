@@ -30,10 +30,10 @@ const priceList = [
 const priceObject = Object.fromEntries(priceList)
 console.log(priceObject);
 
-const displayCase ={
-    artifact:"Obsidian",
-    location:"Hall A,Case 3",
-    locked:true
+const displayCase = {
+    artifact: "Obsidian",
+    location: "Hall A,Case 3",
+    locked: true
 }
 
 Object.freeze(displayCase)
@@ -43,11 +43,30 @@ displayCase.newProp = "test"
 console.log(displayCase);
 
 
-const catalogEntry ={
-    id:"ART-001",
-    description:"Ancient Crowns",
-    verified:true
+const catalogEntry = {
+    id: "ART-001",
+    description: "Ancient Crowns",
+    verified: true
 }
-Object.seal(catalogEntry)  
+Object.seal(catalogEntry)
 
 // Seal allows to edit in the existing properties but can't add new or delete properties 
+
+const secureArtifacts = {
+    name: "Ruby Pendant"
+}
+
+Object.defineProperty(secureArtifacts,"catelogId",{
+    value:"SEC-999",
+    writable:false,
+    enumerable:true,
+    configurable:false
+})
+
+console.log(secureArtifacts.catelogId);
+
+secureArtifacts.catelogId ="HACKED"
+
+console.log(secureArtifacts.catelogId);
+
+
