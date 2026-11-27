@@ -59,7 +59,7 @@ const secureArtifacts = {
 Object.defineProperty(secureArtifacts,"catelogId",{
     value:"SEC-999",
     writable:false,
-    enumerable:true,
+    enumerable:false,
     configurable:false
 })
 
@@ -70,3 +70,12 @@ secureArtifacts.catelogId ="HACKED"
 console.log(secureArtifacts.catelogId);
 
 
+for (const [key,value]of Object.entries(secureArtifacts)){
+    console.log(`${key} : ${value}`);
+    
+}
+
+ const desc = Object.getOwnPropertyDescriptor(secureArtifacts,"name")
+
+ console.log(desc);
+ 
