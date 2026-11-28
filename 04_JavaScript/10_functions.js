@@ -32,3 +32,48 @@ const arrowBrew =() =>{
     }
 }
 arrowBrew("Sage")
+
+
+
+
+let globalCount = 0
+// Impure Fn - It depends on external state or mutating external value
+// Side-Effect - Change happening outside the scope of fn.
+function brewAndCount(name){
+    globalCount++
+}
+
+const potionShop = (function(){
+    let inventory =0
+
+    return {
+        brew(){
+            inventory++
+            return `Brew potion #${inventory}`
+        },
+        getStock(){
+            return inventory
+        }
+    }
+})()
+
+console.log(potionShop);
+console.log(potionShop.brew());
+console.log(potionShop.getStock());
+console.log(potionShop.inventory);
+
+
+function makeFunc(){
+    const name = "Mozilla"
+    const name2 ="firefox"
+    function displayName(){
+        console.log(name);
+        return name2
+    }
+    return displayName
+}
+
+const myFunc = makeFunc()
+myFunc()
+console.log(myFunc());
+
